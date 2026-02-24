@@ -1,0 +1,35 @@
+# Alpine-Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Felix Lionardo <flionardo@qnx.com>
+pkgname=xfce4-terminal
+pkgver=1.1.5
+pkgrel=0
+pkgdesc="Lightweight and easy to use terminal emulator"
+url="https://xfce.org/"
+arch="all"
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+subpackages="$pkgname-lang"
+depends="hicolor-icon-theme glib gtk3 vte3 pcre2 libxfce4ui libxfce4util xfconf"
+depends_dev="exo-dev libxfce4ui-dev pcre2-dev vte3-dev"
+makedepends="$depends_dev
+    meson
+    "
+source="https://archive.xfce.org/src/apps/xfce4-terminal/${pkgver%.*}/xfce4-terminal-$pkgver.tar.xz
+0001-add-meson-option-to-build-doc.patch
+0002-remove-opening-file-manager-option.patch
+"
+
+build() {
+    meson setup build \
+        --prefix=/usr \
+	    -Ddocs=false
+    meson compile -C build
+}
+
+package() {
+    DESTDIR="$pkgdir" meson install --no-rebuild -C build
+}
+sha512sums="
+075ce32f60198ab6f99ac08f9b00328c70cc3b35a082dcdbf245028a31f471fb5758c2d5569f6ccdce9593c70040f8a88d87ea53b86e021e603a85413b6f89c5  xfce4-terminal-1.1.5.tar.xz
+bc1fa9cb33af7d3074c1e531b98501542b75740042ef6bb9eeafa2de363be073120cd62d8e78069008d8d21cd5de5b04c6b4bb9fed6ec1c8f9c3cd7aca314a3e  0001-add-meson-option-to-build-doc.patch
+158f9fe7e535d0ce883fb45224a720dea4821f1e8d5d6282ec7002cde2afd2d69f5d532ce7b7198f72118b5f4e6cf35db2ddaeebfdf8cbc47afe3ae1825a6179  0002-remove-opening-file-manager-option.patch
+"
