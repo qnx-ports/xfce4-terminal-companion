@@ -2,7 +2,7 @@
 # Maintainer: Felix Lionardo <flionardo@qnx.com>
 pkgname=xfce4-terminal
 pkgver=1.1.5
-pkgrel=0
+pkgrel=${pkgrel:-0}
 pkgdesc="Lightweight and easy to use terminal emulator"
 url="https://xfce.org/"
 arch="all"
@@ -28,6 +28,7 @@ build() {
 package() {
     DESTDIR="$pkgdir" meson install --no-rebuild -C build
 }
+options="$options ${DISABLE_CHECK:+!check}"
 sha512sums="
 075ce32f60198ab6f99ac08f9b00328c70cc3b35a082dcdbf245028a31f471fb5758c2d5569f6ccdce9593c70040f8a88d87ea53b86e021e603a85413b6f89c5  xfce4-terminal-1.1.5.tar.xz
 bc1fa9cb33af7d3074c1e531b98501542b75740042ef6bb9eeafa2de363be073120cd62d8e78069008d8d21cd5de5b04c6b4bb9fed6ec1c8f9c3cd7aca314a3e  0001-add-meson-option-to-build-doc.patch
